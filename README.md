@@ -8,6 +8,8 @@ A simple, fast, typed, and tested implementation for a python3.6+ case-insensiti
 * **There is More!!!**:
     * [ModifiableItemsDict](https://github.com/tybruno/modifiable-items-dictionary): CaselessDict is built on top of the `ModifiableItemsDict`, which is a library that enables the user to modify the key or/and value of `dict` type object at runtime.
 
+## Installation
+`pip install caseless-dictionary`
 
 ## Simple CaselessDict Example
 ```python
