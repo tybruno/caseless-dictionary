@@ -1,3 +1,11 @@
+""" Caseless Dictionary and related objects.
+
+Objects provided by this module:
+   `CaselessDict` - Keys are case-folded case.
+   `TitleCaselessDict` - Keys are in title case.
+   `UpperCaselessDict` - Keys are in upper case.
+
+"""
 from typing import (
     Any,
     Hashable,
