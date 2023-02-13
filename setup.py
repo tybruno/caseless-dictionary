@@ -14,7 +14,7 @@ setup(
     name="caseless-dictionary",
     version=__version__,
     author=__author__,
-    description=...,
+    description=_description,
     long_description=README,
     long_description_content_type="text/markdown",
     keywords="python dict dictionary",
