@@ -4,7 +4,7 @@ from setuptools import (
     setup,
 )
 
-__version__ = "v1.0.0"
+__version__ = "v1.0.2"
 __author__ = "Tyler Bruno"
 _description = "Typed and Tested Case Insensitive Dictionary which was inspired by Raymond Hettinger"
 with open("README.md", "r", encoding="utf-8") as file:
