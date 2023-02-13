@@ -6,7 +6,7 @@ from setuptools import (
 
 __version__ = "v1.0.0"
 __author__ = "Tyler Bruno"
-
+_description = "Typed and Tested Case Insensitive Dictionary which was inspired by Raymond Hettinger"
 with open("README.md", "r", encoding="utf-8") as file:
     README = file.read()
 
@@ -14,6 +14,7 @@ setup(
     name="caseless-dictionary",
     version=__version__,
     author=__author__,
+    description=...,
     long_description=README,
     long_description_content_type="text/markdown",
     keywords="python dict dictionary",
