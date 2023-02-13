@@ -59,3 +59,8 @@ title_caseless_dict.pop("  protonMAIL  ")
 
 print(title_caseless_dict) # {'Brave': 1}
 ```
+
+
+## Acknowledgments
+During the class '(Advanced) Python For Engineers III' taught by [Raymond Hettinger](https://github.com/rhettinger), Raymond taught us how to inherit from the builtin Python `dict` by creating a Case-insensitive Dict. 
+I thought this was a wonderful learning experience so I decided to create a project that would build upon what he taught.
