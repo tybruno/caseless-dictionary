@@ -1,4 +1,4 @@
-from typing import Any
+import typing
 
 import pytest
 
@@ -7,18 +7,18 @@ from caseless_dictionary.caseless_dictionary import _case_fold, _upper, _title
 
 @pytest.fixture(
     params=(
-        1,
-        5.56,
-        True,
-        "   Tittle  ",
-        "lower  ",
-        "   UPPER",
-        "CamelCase  ",
-        ["NotTouched"],
+            1,
+            5.56,
+            True,
+            "   Tittle  ",
+            "lower  ",
+            "   UPPER",
+            "CamelCase  ",
+            ["NotTouched"],
     )
 )
-def data(request) -> Any:
-    _data: Any = request.param
+def data(request) -> typing.Any:
+    _data: typing.Any = request.param
     return _data
 
 

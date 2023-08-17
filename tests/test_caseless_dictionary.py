@@ -4,15 +4,11 @@ from typing import Mapping, Any, Callable, Hashable, NamedTuple, Type
 
 import pytest
 
-from caseless_dictionary.caseless_dictionary import (
-    CaselessDict,
-    TitleCaselessDict,
-    UpperCaselessDict,
-)
+import caseless_dictionary
 
 
 class _TestingClass(NamedTuple):
-    cls: Type[CaselessDict]
+    cls: Type[caseless_dictionary.CaselessDict]
     key_modifier: Callable[[Any], Hashable]
 
 
@@ -36,15 +32,15 @@ def _title(value: Any):
 
 @pytest.fixture(
     params=(
-        {
-            "CamelCase": 1,
-            "lower": 2,
-            "UPPER": 3,
-            "snake_case": 4,
-            5.56: "Five",
-            True: "True",
-        },
-        {1: 2, ("hello", "Goodbye"): 2},
+            {
+                "CamelCase": 1,
+                "lower": 2,
+                "UPPER": 3,
+                "snake_case": 4,
+                5.56: "Five",
+                True: "True",
+            },
+            {1: 2, ("hello", "Goodbye"): 2},
     )
 )
 def valid_mapping(request) -> Mapping:
@@ -54,9 +50,9 @@ def valid_mapping(request) -> Mapping:
 
 @pytest.fixture(
     params=(
-        _TestingClass(CaselessDict, _case_fold),
-        _TestingClass(UpperCaselessDict, _upper),
-        _TestingClass(TitleCaselessDict, _title),
+            _TestingClass(caseless_dictionary.CaselessDict, _case_fold),
+            _TestingClass(caseless_dictionary.UpperCaselessDict, _upper),
+            _TestingClass(caseless_dictionary.TitleCaselessDict, _title),
     )
 )
 def caseless_class(request) -> _TestingClass:
@@ -72,14 +68,14 @@ def unhashable_type(request):
 
 class TestCaselessDictionary:
     def test__init__mapping(
-        self, valid_mapping: Mapping, caseless_class: _TestingClass
+            self, valid_mapping: Mapping, caseless_class: _TestingClass
     ):
         _class, _key_operation = caseless_class
-        caseless_dictionary = _class(valid_mapping)
+        caseless_dict = _class(valid_mapping)
         expected = {
             _key_operation(key): value for key, value in valid_mapping.items()
         }
-        assert caseless_dictionary == expected
+        assert caseless_dict == expected
 
     @pytest.mark.parametrize(
         "valid_kwargs",
@@ -88,11 +84,11 @@ class TestCaselessDictionary:
     def test__init__kwargs(self, valid_kwargs, caseless_class):
         _class, _key_operation = caseless_class
 
-        caseless_dictionary = _class(**valid_kwargs)
+        caseless_dict = _class(**valid_kwargs)
         expected = {
             _key_operation(key): value for key, value in valid_kwargs.items()
         }
-        assert caseless_dictionary == expected
+        assert caseless_dict == expected
 
     @pytest.mark.parametrize(
         "mapping_and_kwargs",
@@ -101,7 +97,7 @@ class TestCaselessDictionary:
         ],
     )
     def test__init__iterable_and_kwargs(
-        self, mapping_and_kwargs, caseless_class
+            self, mapping_and_kwargs, caseless_class
     ):
         _class, _key_operation = caseless_class
         args, kwargs = mapping_and_kwargs
@@ -109,8 +105,8 @@ class TestCaselessDictionary:
             _key_operation(key): value
             for key, value in dict(**args, **kwargs).items()
         }
-        caseless_dictionary = _class(args, **kwargs)
-        assert caseless_dictionary == expected
+        caseless_dict = _class(args, **kwargs)
+        assert caseless_dict == expected
 
     @pytest.mark.parametrize(
         "iterables",
@@ -122,12 +118,12 @@ class TestCaselessDictionary:
     def test__init__iterable(self, iterables, caseless_class):
         _class, _key_operation = caseless_class
         iterables_copy = deepcopy(iterables)
-        caseless_dictionary = _class(iterables)
+        caseless_dict = _class(iterables)
         expected: Mapping = {
             _key_operation(key): value for key, value in iterables_copy
         }
-        assert caseless_dictionary == expected
-        assert repr(caseless_dictionary) == repr(expected)
+        assert caseless_dict == expected
+        assert repr(caseless_dict) == repr(expected)
 
     @pytest.mark.parametrize("invalid_type", ([1], {2}, True, 1))
     def test__init__invalid_type(self, invalid_type, caseless_class):
@@ -153,12 +149,12 @@ class TestCaselessDictionary:
         value = None
         expected: Mapping = {_key_operation(key): value for key in keys}
 
-        caseless_dictionary = _class.fromkeys(keys, value)
-        assert caseless_dictionary == expected
-        assert isinstance(caseless_dictionary, _class)
+        caseless_dict = _class.fromkeys(keys, value)
+        assert caseless_dict == expected
+        assert isinstance(caseless_dict, _class)
 
         for key in keys:
-            assert key in caseless_dictionary
+            assert key in caseless_dict
 
     @pytest.mark.parametrize("invalid_type", (True, 1))
     def test_fromkeys_with_invalid_type(self, invalid_type, caseless_class):
@@ -181,101 +177,101 @@ class TestCaselessDictionary:
     def test___setitem__bad_key_type(self, caseless_class, unhashable_type):
         _class, _ = caseless_class
 
-        caseless_dictionary: _class = _class()
+        caseless_dict: _class = _class()
         with pytest.raises(TypeError):
-            caseless_dictionary[unhashable_type] = 0
+            caseless_dict[unhashable_type] = 0
 
     def test__getitem__(self, valid_mapping, caseless_class):
         _class, _ = caseless_class
 
-        caseless_dictionary: _class = _class(valid_mapping)
+        caseless_dict: _class = _class(valid_mapping)
         for key, value in valid_mapping.items():
-            assert caseless_dictionary[key] == value
+            assert caseless_dict[key] == value
 
     def test__getitem__missing_key(self, caseless_class):
         _class, _ = caseless_class
 
-        caseless_dictionary: _class = _class()
-        assert caseless_dictionary == dict()
+        caseless_dict: _class = _class()
+        assert caseless_dict == dict()
 
         # make unique __key which will not be in dict
         _missing_key = object()
 
         with pytest.raises(KeyError):
-            _ = caseless_dictionary[_missing_key]
+            _ = caseless_dict[_missing_key]
 
     def test__delitem__(self, valid_mapping, caseless_class):
         _class, _ = caseless_class
 
-        caseless_dictionary: _class = _class(valid_mapping)
+        caseless_dict: _class = _class(valid_mapping)
         for key, value in valid_mapping.items():
-            del caseless_dictionary[key]
-            assert key not in caseless_dictionary
+            del caseless_dict[key]
+            assert key not in caseless_dict
 
     def test__delitem__missing_key(self, valid_mapping, caseless_class):
         _class, _ = caseless_class
 
-        caseless_dictionary: _class = _class(valid_mapping)
+        caseless_dict: _class = _class(valid_mapping)
         with contextlib.suppress(KeyError):
-            del caseless_dictionary["missing_key"]
+            del caseless_dict["missing_key"]
 
     def test_get(self, valid_mapping, caseless_class):
         _class, _ = caseless_class
 
-        caseless_dictionary: _class = _class(valid_mapping)
+        caseless_dict: _class = _class(valid_mapping)
         for key, value in valid_mapping.items():
-            assert caseless_dictionary.get(key) == value
-            assert caseless_dictionary.get(key, None) == value
+            assert caseless_dict.get(key) == value
+            assert caseless_dict.get(key, None) == value
 
     def test_get_missing_key(self, caseless_class):
         _class, _ = caseless_class
 
-        caseless_dictionary: _class = _class()
+        caseless_dict: _class = _class()
 
         # make unique __key which will not be in dict
         _missing_key = object()
         _default = "__default v"
 
-        assert caseless_dictionary.get(_missing_key) is None
-        assert caseless_dictionary.get(_missing_key, _default) == _default
+        assert caseless_dict.get(_missing_key) is None
+        assert caseless_dict.get(_missing_key, _default) == _default
 
     def test_get_unhashable_key(self, caseless_class, unhashable_type):
         _class, _ = caseless_class
 
-        caseless_dictionary: _class = _class()
+        caseless_dict: _class = _class()
 
         _default = "__default v"
 
         with pytest.raises(TypeError):
-            caseless_dictionary.get(unhashable_type)
-            caseless_dictionary.get(unhashable_type, _default)
+            caseless_dict.get(unhashable_type)
+            caseless_dict.get(unhashable_type, _default)
 
     def test_pop(self, valid_mapping, caseless_class):
         _class, _ = caseless_class
 
-        caseless_dictionary: _class = _class(valid_mapping)
+        caseless_dict: _class = _class(valid_mapping)
         for key, value in valid_mapping.items():
-            assert caseless_dictionary.pop(key) == value
-            assert key not in caseless_dictionary
+            assert caseless_dict.pop(key) == value
+            assert key not in caseless_dict
 
     def test_pop_missing_key(self, caseless_class):
         _class, _ = caseless_class
 
-        caseless_dictionary: _class = _class()
+        caseless_dict: _class = _class()
 
         # make unique __key which will not be in dict
         _missing_key = object()
 
         with pytest.raises(KeyError):
-            caseless_dictionary.pop(_missing_key)
+            caseless_dict.pop(_missing_key)
 
     def test_pop_unhashable_type(self, caseless_class, unhashable_type):
         _class, _ = caseless_class
 
-        caseless_dictionary: _class = _class()
+        caseless_dict: _class = _class()
 
         with pytest.raises(KeyError):
-            caseless_dictionary.pop(unhashable_type)
+            caseless_dict.pop(unhashable_type)
 
     def test_setdefault(self, valid_mapping, caseless_class):
         _class, _key_operation = caseless_class
@@ -289,7 +285,7 @@ class TestCaselessDictionary:
         assert repr(caseless_dict) == repr(expected)
 
     def test_setdefault_unhashable_type(
-        self, caseless_class, unhashable_type
+            self, caseless_class, unhashable_type
     ):
         _class, _key_operation = caseless_class
 
@@ -306,7 +302,7 @@ class TestCaselessDictionary:
     )
     @pytest.mark.parametrize("kwargs", ({"UP": 1, "down": 2, "__key": 3},))
     def test_update_using_mapping(
-        self, caseless_class, starting_data, args, kwargs
+            self, caseless_class, starting_data, args, kwargs
     ):
         _class, _key_operation = caseless_class
         caseless_dict: _class = _class(starting_data)
@@ -338,7 +334,7 @@ class TestCaselessDictionary:
     )
     @pytest.mark.parametrize("kwargs", ({"UP": 1, "down": 2, "__key": 3},))
     def test_update_using_sequence(
-        self, caseless_class, starting_data, args, kwargs
+            self, caseless_class, starting_data, args, kwargs
     ):
         _class, _key_operation = caseless_class
         caseless_dict: _class = _class(starting_data)

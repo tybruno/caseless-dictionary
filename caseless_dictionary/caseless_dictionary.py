@@ -6,21 +6,19 @@ Objects provided by this module:
    `UpperCaselessDict` - Keys are in upper case.
 
 """
-from typing import (
-    Any,
-    Hashable,
-)
+import typing
 
-from modifiable_items_dict import ModifiableItemsDict
+import modifiable_items_dictionary
 
 
-def _case_fold(value: Any):
+def _case_fold(value: typing.Any):
     """strip then casefold a *str*
 
-    >>> _case_fold("CamelCase")
-    'camelcase'
-    >>> _case_fold(2) # Not a *str*
-    2
+    Example:
+        >>> _case_fold("   CamelCase   ")
+        'camelcase'
+        >>> _case_fold(2) # Not a *str*
+        2
 
     Args:
         value: If an instance of a string strip then casefold the *v*
@@ -36,14 +34,14 @@ def _case_fold(value: Any):
     return value
 
 
-def _upper(value: Any):
+def _upper(value: typing.Any):
     """strip the string then convert to uppercase.
-    Example:
 
-    >>> _upper("CamelCase")
-    'CAMELCASE'
-    >>> _upper(["not of type *str*"]) # Not a *str*
-    ['not of type *str*']
+    Example:
+        >>> _upper("   CamelCase   ")
+        'CAMELCASE'
+        >>> _upper(["not of type *str*"]) # Not a *str*
+        ['not of type *str*']
 
     Args:
         value: If an instance of a string strip then convert the *v* to an uppercase *str*
@@ -58,13 +56,14 @@ def _upper(value: Any):
     return value
 
 
-def _title(value: Any):
+def _title(value: typing.Any):
     """strip the string then convert to title.
 
-    >>> _title("lower UPPER CamelCase")
-    'Lower Upper Camelcase'
-    >>> _title(["not of type *str*"]) # Not a *str*
-    ['not of type *str*']
+    Example:
+        >>> _title("   lower UPPER CamelCase   ")
+        'Lower Upper Camelcase'
+        >>> _title(["not of type *str*"]) # Not a *str*
+        ['not of type *str*']
 
     Args:
         value: If an instance of a string strip then convert the *v* to an uppercase *str*
@@ -79,7 +78,7 @@ def _title(value: Any):
     return value
 
 
-class CaselessDict(ModifiableItemsDict):
+class CaselessDict(modifiable_items_dictionary.ModifiableItemsDict):
     """Case-insensitive Dictionary class where the keys thar are strings are casefolded.
 
     CaselessDict() -> new empty caseless dictionary
@@ -93,17 +92,17 @@ class CaselessDict(ModifiableItemsDict):
         in the keyword argument list.  For example:  CaselessDict(one=1, two=2)
 
     Example:
-    >>> normal_dict: dict = {"  lower   ": 1, "UPPER ": 2, "CamelCase": 3}
-    >>> caseless_dict = CaselessDict(normal_dict)
-    >>> caseless_dict
-    {'lower': 1, 'upper': 2, 'camelcase': 3}
-    >>> caseless_dict[" UPpeR  "]
-    2
+        >>> normal_dict: dict = {"  lower   ": 1, "UPPER ": 2, "CamelCase": 3}
+        >>> caseless_dict = CaselessDict(normal_dict)
+        >>> caseless_dict
+        {'lower': 1, 'upper': 2, 'camelcase': 3}
+        >>> caseless_dict[" UPpeR  "]
+        2
     """
 
     _key_modifiers = staticmethod(_case_fold)
 
-    def __missing__(self, key: Hashable) -> None:
+    def __missing__(self, key: typing.Hashable) -> None:
         """Handle missing __key.
         Args:
             key: The Hashable __key that is missing.
