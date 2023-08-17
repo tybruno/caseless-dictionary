@@ -9,6 +9,7 @@ __author__ = "Tyler Bruno"
 DESCRIPTION = "Typed and Tested Case Insensitive Dictionary which was inspired by Raymond Hettinger"
 INSTALL_REQUIRES = ("modifiable-items-dictionary >= 2.0.0",)
 
+
 with open("README.md", "r", encoding="utf-8") as file:
     README = file.read()
 
