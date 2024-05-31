@@ -40,6 +40,11 @@ def example_caseless_dict():
     """
     caseless_dict = CaselessDict({'Hello World': 1, 'WORLD WIDE': 2})
     print(caseless_dict)  # Output: {'hello world': 1, 'world wide': 2}
+    caseless_dict.str_only = True
+    try:
+        caseless_dict[1] = 2  # Raises TypeError
+    except TypeError:
+        print("TypeError raised as expected when str_only is True")
 
 
 def example_upper_caseless_dict():
@@ -51,6 +56,11 @@ def example_upper_caseless_dict():
         {'Hello World': 1, 'WORLD WIDE': 2}
     )
     print(upper_caseless_dict)  # Output: {'HELLO WORLD': 1, 'WORLD WIDE': 2}
+    upper_caseless_dict.str_only = True
+    try:
+        upper_caseless_dict[1] = 2  # Raises TypeError
+    except TypeError:
+        print("TypeError raised as expected when str_only is True")
 
 
 def example_title_caseless_dict():
@@ -62,6 +72,11 @@ def example_title_caseless_dict():
         {'Hello World': 1, 'WORLD WIDE': 2}
     )
     print(title_caseless_dict)  # Output: {'Hello World': 1, 'World Wide': 2}
+    title_caseless_dict.str_only = True
+    try:
+        title_caseless_dict[1] = 2  # Raises TypeError
+    except TypeError:
+        print("TypeError raised as expected when str_only is True")
 
 
 def example_snake_caseless_dict():
@@ -73,6 +88,11 @@ def example_snake_caseless_dict():
         {'Hello World': 1, 'WORLD WIDE': 2}
     )
     print(snake_caseless_dict)  # Output: {'hello_world': 1, 'world_wide': 2}
+    snake_caseless_dict.str_only = True
+    try:
+        snake_caseless_dict[1] = 2  # Raises TypeError
+    except TypeError:
+        print("TypeError raised as expected when str_only is True")
 
 
 def example_kebab_caseless_dict():
@@ -86,6 +106,11 @@ def example_kebab_caseless_dict():
     print(
         kebab_caseless_attr_dict
     )  # Output: {'hello-world': 1, 'world-wide': 2}
+    kebab_caseless_attr_dict.str_only = True
+    try:
+        kebab_caseless_attr_dict[1] = 2  # Raises TypeError
+    except TypeError:
+        print("TypeError raised as expected when str_only is True")
 
 
 def example_constant_caseless_dict():
@@ -99,3 +124,8 @@ def example_constant_caseless_dict():
     print(
         constant_caseless_attr_dict
     )  # Output: {'HELLO_WORLD': 1, 'WORLD_WIDE': 2}
+    constant_caseless_attr_dict.str_only = True
+    try:
+        constant_caseless_attr_dict[1] = 2  # Raises TypeError
+    except TypeError:
+        print("TypeError raised as expected when str_only is True")

@@ -30,6 +30,11 @@ def example_caseless_attr_dict():
     )
     print(caseless_attr_dict)  # Output: {'hello world': 1, 'world wide': 2}
     print(caseless_attr_dict.hEllo_wOrld)  # Output: 1
+    caseless_attr_dict.str_only = True
+    try:
+        caseless_attr_dict[1] = 2  # Raises TypeError
+    except TypeError:
+        print("TypeError raised as expected when str_only is True")
 
 
 def example_constant_caseless_attr_dict():
@@ -46,3 +51,8 @@ def example_constant_caseless_attr_dict():
         constant_caseless_attr_dict
     )  # Output: {'HELLO_WORLD': 1, 'WORLD_WIDE': 2}
     print(constant_caseless_attr_dict.HELLO_WORLD)  # Output: 1
+    constant_caseless_attr_dict.str_only = True
+    try:
+        constant_caseless_attr_dict[1] = 2  # Raises TypeError
+    except TypeError:
+        print("TypeError raised as expected when str_only is True")
