@@ -304,3 +304,12 @@ class TestCaselessDictionary:
 
         with pytest.raises(TypeError):
             caseless_dict.update(iterable)
+
+    def test_str_only(self, caseless_class):
+        _class, _ = caseless_class
+
+        _class.str_only = True
+        caseless_dict: _class = _class()
+
+        with pytest.raises(TypeError):
+            caseless_dict[1] = 2

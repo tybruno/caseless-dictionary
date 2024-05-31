@@ -367,3 +367,27 @@ class TestCaselessAttributeDictionary:
             _ = caseless_attr_dict.new_attr
         with pytest.raises(KeyError):
             _ = caseless_attr_dict[_key_operation('new_attr')]
+
+    def test_str_only(self, caseless_attr_class):
+        _class, _key_operation = caseless_attr_class
+        caseless_attr_dict: _class = _class()
+
+        # Initially, str_only should be False and we should be able to add any hashable key
+        assert caseless_attr_dict.str_only == False
+        caseless_attr_dict[1] = "one"
+        assert caseless_attr_dict[1] == "one"
+
+
+        # Set str_only to True
+        _class.str_only = True
+        caseless_attr_dict: _class = _class()
+
+        assert caseless_attr_dict.str_only == True
+
+        # Now, trying to add a non-string key should raise a TypeError
+        with pytest.raises(TypeError):
+            caseless_attr_dict[2] = "two"
+
+        # But we should still be able to add string keys
+        caseless_attr_dict["two"] = 2
+        assert caseless_attr_dict["two"] == 2
