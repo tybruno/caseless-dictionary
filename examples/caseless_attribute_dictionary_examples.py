@@ -12,7 +12,7 @@ Functions:
     example_constant_caseless_attr_dict():
         Creates a ConstantCaselessAttrDict and prints its contents.
 """
-from caseless_dictionary.caseless_attribute_dictionary import (
+from caseless_dictionary.caseless_attribute_dict import (
     SnakeCaselessAttrDict,
     ConstantCaselessAttrDict,
 )

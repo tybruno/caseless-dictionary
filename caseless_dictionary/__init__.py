@@ -1,4 +1,4 @@
-from caseless_dictionary.caseless_attribute_dictionary import (
+from caseless_dictionary.caseless_attribute_dict import (
     CaselessAttrDict,
     SnakeCaselessAttrDict,
     ConstantCaselessAttrDict,
