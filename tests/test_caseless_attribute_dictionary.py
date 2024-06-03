@@ -12,8 +12,6 @@ from typing import Mapping
 
 import pytest
 
-from tests.conftest import _TestingClass
-
 
 class TestCaselessAttributeDictionary:
     """Test case for the CaselessAttributeDictionary class.
@@ -23,17 +21,23 @@ class TestCaselessAttributeDictionary:
     tests:
         test__init__mapping: Test the __init__ method with a mapping.
         test__init__kwargs: Test the __init__ method with keyword arguments.
-        test__init__iterable_and_kwargs: Test the __init__ method with an iterable and keyword arguments.
+        test__init__iterable_and_kwargs: Test the __init__ method with an
+            iterable and keyword arguments.
         test__init__iterable: Test the __init__ method with an iterable.
-        test__init__invalid_type: Test the __init__ method with an invalid type.
+        test__init__invalid_type: Test the __init__ method with an invalid
+            type.
         test_fromkeys: Test the fromkeys method.
-        test_fromkeys_with_invalid_type: Test the fromkeys method with an invalid type.
+        test_fromkeys_with_invalid_type: Test the fromkeys method with an
+            invalid type.
         test__setitem__: Test the __setitem__ method.
-        test___setitem__bad_key_type: Test the __setitem__ method with an invalid key type.
+        test___setitem__bad_key_type: Test the __setitem__ method with an
+            invalid key type.
         test__getitem__: Test the __getitem__ method.
-        test__getitem__missing_key: Test the __getitem__ method with a missing key.
+        test__getitem__missing_key: Test the __getitem__ method with a
+            missing key.
         test__delitem__: Test the __delitem__ method.
-        test__delitem__missing_key: Test the __delitem__ method with a missing key.
+        test__delitem__missing_key: Test the __delitem__ method with a
+            missing key.
         test_get: Test the get method.
         test_get_missing_key: Test the get method with a missing key.
         test_get_unhashable_key: Test the get method with an unhashable key.
@@ -41,7 +45,8 @@ class TestCaselessAttributeDictionary:
         test_pop_missing_key: Test the pop method with a missing key.
         test_pop_unhashable_type: Test the pop method with an unhashable type.
         test_setdefault: Test the setdefault method.
-        test_setdefault_unhashable_type: Test the setdefault method with an unhashable type.
+        test_setdefault_unhashable_type: Test the setdefault method with an
+            unhashable type.
         test_update_using_mapping: Test the update method using a mapping.
         test_update_using_sequence: Test the update method using a sequence.
 
@@ -49,7 +54,7 @@ class TestCaselessAttributeDictionary:
     """
 
     def test__init__mapping(
-        self, valid_mapping: Mapping, caseless_attr_class: _TestingClass
+        self, valid_mapping: Mapping, caseless_attr_class
     ):
         _class, _key_operation = caseless_attr_class
         caseless_attr_dict = _class(valid_mapping)

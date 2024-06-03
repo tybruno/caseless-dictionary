@@ -4,12 +4,10 @@ from typing import Mapping
 
 import pytest
 
-from tests.conftest import _TestingClass
-
 
 class TestCaselessDictionary:
     def test__init__mapping(
-        self, valid_mapping: Mapping, caseless_class: _TestingClass
+        self, valid_mapping: Mapping, caseless_class
     ):
         _class, _key_operation = caseless_class
         caseless_dict = _class(valid_mapping)
