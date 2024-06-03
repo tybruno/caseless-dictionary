@@ -6,7 +6,10 @@ from setuptools import (
 
 __version__ = 'v2.0.0'
 __author__ = 'Tyler Bruno'
-DESCRIPTION = 'Typed and Tested Case Insensitive Dictionary which was inspired by Raymond Hettinger'
+DESCRIPTION = (
+    'Typed and Tested Case Insensitive Dictionary which was '
+    'inspired by Raymond Hettinger'
+)
 INSTALL_REQUIRES = ('modifiable-items-dictionary >= 3.0.0',)
 
 

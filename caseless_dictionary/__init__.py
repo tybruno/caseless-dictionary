@@ -1,15 +1,15 @@
-from caseless_dictionary.caseless_dictionary import (
+from caseless_dictionary.caseless_attribute_dictionary import (
+    CaselessAttrDict,
+    SnakeCaselessAttrDict,
+    ConstantCaselessAttrDict,
+)
+from caseless_dictionary.caseless_dict import (
     CaselessDict,
     UpperCaselessDict,
     TitleCaselessDict,
     SnakeCaselessDict,
     KebabCaselessDict,
     ConstantCaselessDict,
-)
-from caseless_dictionary.caseless_attribute_dictionary import (
-    CaselessAttrDict,
-    SnakeCaselessAttrDict,
-    ConstantCaselessAttrDict,
 )
 
 __all__ = (

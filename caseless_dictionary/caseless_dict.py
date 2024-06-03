@@ -9,7 +9,11 @@ Objects provided by this module:
    `KebabCaselessDict` - Keys are in kebab case.
    `ConstantCaselessDict` - Keys are in constant case.
 """
-from modifiable_items_dictionary.modifiable_items_dictionary import ModifiableItemsDict,Key, Value
+from modifiable_items_dictionary.modifiable_items_dictionary import (
+    ModifiableItemsDict,
+    Key,
+    Value,
+)
 
 from caseless_dictionary.cases import (
     case_fold,
@@ -25,7 +29,7 @@ from caseless_dictionary.cases import (
 class CaselessDict(ModifiableItemsDict):
     """
     Case-insensitive Dictionary class where the keys that are strings are
-    casefolded. If str_only is set to True, keys must be of type str.
+    casefolded. If key_is_str_only is set to True, keys must be of type str.
 
     CaselessDict() -> new empty caseless dictionary
     CaselessDict(mapping) -> new caseless dictionary initialized from a
@@ -38,20 +42,19 @@ class CaselessDict(ModifiableItemsDict):
         the name=value pairs in the keyword argument list.
         For example:  CaselessDict(one=1, two=2)
 
+
     Example:
-    >>> normal_dict: dict = {"  lower   ": 1, "UPPER ": 2, "CamelCase": 3}
+    >>> normal_dict: dict = {"  sOmE WoRD  ": 1}
     >>> caseless_dict = CaselessDict(normal_dict)
     >>> caseless_dict
-    {'lower': 1, 'upper': 2, 'camelcase': 3}
-    >>> caseless_dict[" UPpeR  "]
-    2
-    >>> caseless_dict.str_only = True
-    >>> caseless_dict[1] = 2  # Raises TypeError: Key must be a str, not int
+    {'some word': 1}
+    >>> caseless_dict["  SomE Word "]
+    1
     """
 
     __slots__ = ()
     _key_modifiers = [case_fold]
-    str_only = False
+    key_is_str_only = False
 
     def __missing__(self, key: Key) -> None:
         """Handle missing key.
@@ -72,10 +75,10 @@ class CaselessDict(ModifiableItemsDict):
             value: The value that will be set for the key.
 
         Raises:
-            TypeError: If str_only is True and key is not a str.
+            TypeError: If `key_is_str_only` is True and key is not a str.
         """
-        if self.str_only and not isinstance(key, str):
-            raise TypeError("Key must be a str, not ", type(key).__name__)
+        if self.key_is_str_only and not isinstance(key, str):
+            raise TypeError('Key must be a str, not ', type(key).__name__)
 
         ModifiableItemsDict.__setitem__(self, key, value)
 
@@ -83,7 +86,7 @@ class CaselessDict(ModifiableItemsDict):
 class CaseFoldCaselessDict(CaselessDict):
     """
     Case-insensitive Dictionary class where keys that are strings are
-    case-folded. If str_only is True, keys must be str.
+    case-folded. If key_is_str_only is True, keys must be str.
 
     CaseFoldCaselessDict() -> new empty case-folded caseless dictionary
     CaseFoldCaselessDict(mapping) -> new case-folded caseless dictionary
@@ -98,14 +101,12 @@ class CaseFoldCaselessDict(CaselessDict):
         For example:  CaseFoldCaselessDict(one=1, two=2)
 
     Example:
-    >>> normal_dict: dict = {"  lower   ": 1, "UPPER ": 2, "CamelCase": 3}
+    >>> normal_dict: dict = {"  sOmE WoRD  ": 1}
     >>> case_fold_caseless_dict = CaseFoldCaselessDict(normal_dict)
     >>> case_fold_caseless_dict
-    {'lower': 1, 'upper': 2, 'camelcase': 3}
-    >>> case_fold_caseless_dict[" UPpeR  "]
-    2
-    >>> case_fold_caseless_dict.str_only = True
-    >>> case_fold_caseless_dict[1] = 2  # Raises TypeError
+    {'some word': 1}
+    >>> case_fold_caseless_dict["  SomE Word "]
+    1
     """
 
     __slots__ = ()
@@ -114,7 +115,7 @@ class CaseFoldCaselessDict(CaselessDict):
 class LowerCaselessDict(CaselessDict):
     """
     Case-insensitive Dictionary class where keys that are strings are
-    in lower case. If str_only is True, keys must be str.
+    in lower case. If key_is_str_only is True, keys must be str.
 
     LowerCaselessDict() -> new empty lower caseless dictionary
     LowerCaselessDict(mapping) -> new lower caseless dictionary
@@ -129,14 +130,12 @@ class LowerCaselessDict(CaselessDict):
         For example:  LowerCaselessDict(one=1, two=2)
 
     Example:
-    >>> normal_dict: dict = {"  lower   ": 1, "UPPER ": 2, "CamelCase": 3}
+    >>> normal_dict: dict = {"  sOmE WoRD  ": 1}
     >>> lower_caseless_dict = LowerCaselessDict(normal_dict)
     >>> lower_caseless_dict
-    {'lower': 1, 'upper': 2, 'camelcase': 3}
-    >>> lower_caseless_dict[" UPpeR  "]
-    2
-    >>> lower_caseless_dict.str_only = True
-    >>> lower_caseless_dict[1] = 2  # Raises TypeError
+    {'some word': 1}
+    >>> lower_caseless_dict["  SomE Word "]
+    1
     """
 
     __slots__ = ()
@@ -146,7 +145,7 @@ class LowerCaselessDict(CaselessDict):
 class UpperCaselessDict(CaselessDict):
     """
     Case-insensitive Dictionary class where keys that are strings are
-    in upper case. If str_only is True, keys must be str.
+    in upper case. If key_is_str_only is True, keys must be str.
 
     UpperCaselessDict() -> new empty upper caseless dictionary
     UpperCaselessDict(mapping) -> new upper caseless dictionary initialized
@@ -160,15 +159,14 @@ class UpperCaselessDict(CaselessDict):
         with the name=value pairs in the keyword argument list.
         For example:  UpperCaselessDict(one=1, two=2)
 
+
     Example:
-    >>> normal_dict: dict = {"  lower   ": 1, "UPPER ": 2, "CamelCase": 3}
+    >>> normal_dict: dict = {"  sOmE WoRD  ": 1}
     >>> upper_caseless_dict = UpperCaselessDict(normal_dict)
     >>> upper_caseless_dict
-    {'LOWER': 1, 'UPPER': 2, 'CAMELCASE': 3}
-    >>> "CAmelCase  " in upper_caseless_dict
-    True
-    >>> upper_caseless_dict.str_only = True
-    >>> upper_caseless_dict[1] = 2  # Raises TypeError
+    {'SOME WORD': 1}
+    >>> upper_caseless_dict["  SomE Word "]
+    1
     """
 
     __slots__ = ()
@@ -178,7 +176,7 @@ class UpperCaselessDict(CaselessDict):
 class TitleCaselessDict(CaselessDict):
     """
     Case-insensitive Dictionary class where keys that are strings are
-    in Title Case. If str_only is True, keys must be str.
+    in Title Case. If key_is_str_only is True, keys must be str.
 
     TitleCaselessDict() -> new empty title caseless dictionary
     TitleCaselessDict(mapping) -> new title caseless dictionary initialized
@@ -193,14 +191,12 @@ class TitleCaselessDict(CaselessDict):
         For example:  TitleCaselessDict(one=1, two=2)
 
     Example:
-    >>> normal_dict: dict = {"  lower   ": 1, "UPPER ": 2, "CamelCase": 3}
-    >>> upper_caseless_dict = TitleCaselessDict(lower=1, UPPER=2, CamelCase=3)
-    >>> upper_caseless_dict
-    {'Lower': 1, 'Upper': 2, 'Camelcase': 3}
-    >>> "  lOwEr  " in upper_caseless_dict
-    True
-    >>> upper_caseless_dict.str_only = True
-    >>> upper_caseless_dict[1] = 2  # Raises TypeError
+    >>> normal_dict: dict = {"  sOmE WoRD  ": 1}
+    >>> title_caseless_dict = TitleCaselessDict(normal_dict)
+    >>> title_caseless_dict
+    {'Some Word': 1}
+    >>> title_caseless_dict["  SomE Word "]
+    1
     """
 
     __slots__ = ()
@@ -210,7 +206,7 @@ class TitleCaselessDict(CaselessDict):
 class SnakeCaselessDict(CaselessDict):
     """
     Case-insensitive Dictionary class where keys that are strings are
-    in Snake Case. If str_only is True, keys must be str.
+    in Snake Case. If key_is_str_only is True, keys must be str.
 
     SnakeCaselessDict() -> new empty snake caseless dictionary
     SnakeCaselessDict(mapping) -> new snake caseless dictionary initialized
@@ -225,15 +221,12 @@ class SnakeCaselessDict(CaselessDict):
         For example:  SnakeCaselessDict(one=1, two=2)
 
     Example:
-    >>> from caseless_dictionary import SnakeCaselessDict
-    >>> normal_dict: dict = {"  lower   ": 1, "UPPER ": 2, "CamelCase": 3}
-    >>> snake_caseless_dict = SnakeCaselessDict(lower=1, UPPER=2, CamelCase=3)
+    >>> normal_dict = {"  SomE wORd ": 1}
+    >>> snake_caseless_dict = SnakeCaselessDict(normal_dict)
     >>> snake_caseless_dict
-    {'lower': 1, 'upper': 2, 'camel_case': 3}
-    >>> "  CamelCase  " in snake_caseless_dict
-    True
-    >>> snake_caseless_dict.str_only = True
-    >>> snake_caseless_dict[1] = 2  # Raises TypeError
+    {'some_word': 1}
+    >>> snake_caseless_dict["  SomE Word "]
+    1
     """
 
     __slots__ = ()
@@ -243,7 +236,7 @@ class SnakeCaselessDict(CaselessDict):
 class KebabCaselessDict(CaselessDict):
     """
     Case-insensitive Dictionary class where keys that are strings are
-    in Kebab Case. If str_only is True, keys must be str.
+    in Kebab Case. If key_is_str_only is True, keys must be str.
 
     KebabCaselessDict() -> new empty kebab caseless dictionary
     KebabCaselessDict(mapping) -> new kebab caseless dictionary initialized
@@ -258,14 +251,12 @@ class KebabCaselessDict(CaselessDict):
         For example:  KebabCaselessDict(one=1, two=2)
 
     Example:
-    >>> normal_dict: dict = {"  lower   ": 1, "UPPER ": 2, "CamelCase": 3}
-    >>> kebab_caseless_dict = KebabCaselessDict(lower=1, UPPER=2, CamelCase=3)
+    >>> normal_dict: dict = {"  SomE wORd ": 1}
+    >>> kebab_caseless_dict = KebabCaselessDict(normal_dict)
     >>> kebab_caseless_dict
-    {'lower': 1, 'upper': 2, 'camel-case': 3}
-    >>> "  CamelCase  " in kebab_caseless_dict
-    True
-    >>> kebab_caseless_dict.str_only = True
-    >>> kebab_caseless_dict[1] = 2  # Raises TypeError
+    {'some-word': 1}
+    >>> kebab_caseless_dict["  SomE Word "]
+    1
     """
 
     __slots__ = ()
@@ -275,7 +266,7 @@ class KebabCaselessDict(CaselessDict):
 class ConstantCaselessDict(CaselessDict):
     """
     Case-insensitive Dictionary class where keys that are strings are
-    in Constant Case. If str_only is True, keys must be str.
+    in Constant Case. If key_is_str_only is True, keys must be str.
 
     ConstantCaselessDict() -> new empty constant caseless dictionary
     ConstantCaselessDict(mapping) -> new constant caseless dictionary
@@ -290,15 +281,12 @@ class ConstantCaselessDict(CaselessDict):
         For example:  ConstantCaselessDict(one=1, two=2)
 
     Example:
-    >>> normal_dict: dict = {"  lower   ": 1, "UPPER ": 2, "CamelCase": 3}
-    >>> constant_caseless_dict = ConstantCaselessDict(lower=1, UPPER=2,
-    ... CamelCase=3)
+    >>> normal_dict: dict = {"  SomE wORd ": 1}
+    >>> constant_caseless_dict = ConstantCaselessDict(normal_dict)
     >>> constant_caseless_dict
-    {'LOWER': 1, 'UPPER': 2, 'CAMEL_CASE': 3}
-    >>> "  CamelCase  " in constant_caseless_dict
-    True
-    >>> constant_caseless_dict.str_only = True
-    >>> constant_caseless_dict[1] = 2  # Raises TypeError
+    {'SOME_WORD': 1}
+    >>> constant_caseless_dict["  SomE Word "]
+    1
     """
 
     __slots__ = ()

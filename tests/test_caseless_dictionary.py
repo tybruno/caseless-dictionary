@@ -308,7 +308,7 @@ class TestCaselessDictionary:
     def test_str_only(self, caseless_class):
         _class, _ = caseless_class
 
-        _class.str_only = True
+        _class.key_is_str_only = True
         caseless_dict: _class = _class()
 
         with pytest.raises(TypeError):

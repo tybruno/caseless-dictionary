@@ -12,7 +12,7 @@ Classes:
     TestKebabCase: Test case for the kebab_case function.
 """
 import typing
-import re
+
 import pytest
 
 from caseless_dictionary.cases import (

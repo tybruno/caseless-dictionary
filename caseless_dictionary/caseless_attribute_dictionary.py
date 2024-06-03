@@ -13,8 +13,11 @@ Classes:
 Each class inherits from ModifiableItemsAttrDict and overrides the
 _key_modifiers attribute to provide different case handling.
 """
-from modifiable_items_dictionary.modifiable_items_attribute_dictionary import ModifiableItemsAttrDict
+from modifiable_items_dictionary.modifiable_items_attribute_dictionary import (
+    ModifiableItemsAttrDict,
+)
 from modifiable_items_dictionary.modifiable_items_dictionary import Key, Value
+
 from caseless_dictionary.cases import (
     snake_case,
     constant_case,
@@ -24,7 +27,7 @@ from caseless_dictionary.cases import (
 class CaselessAttrDict(ModifiableItemsAttrDict):
     """
     Case-insensitive AttrDict where keys that are strings are in snake case.
-    If str_only is set to True, keys must be of type str.
+    If key_is_str_only is set to True, keys must be of type str.
 
     CaselessAttrDict() -> new empty caseless attribute dictionary
     CaselessAttrDict(mapping) -> new caseless attribute dictionary initialized
@@ -47,14 +50,11 @@ class CaselessAttrDict(ModifiableItemsAttrDict):
     1
     >>> caseless_attr_dict.sOme_worD
     1
-    >>> caseless_attr_dict.str_only = True
-    >>> caseless_attr_dict[1] = 2  # Raises TypeError: Key must be a str, not int
     """
 
     __slots__ = ()
     _key_modifiers = [snake_case]
-    str_only = False
-
+    key_is_str_only = False
 
     def __missing__(self, key: Key) -> None:
         """Handle missing __key.
@@ -75,17 +75,17 @@ class CaselessAttrDict(ModifiableItemsAttrDict):
             value: The value that will be set for the key.
 
         Raises:
-            TypeError: If str_only is True and key is not a str.
+            TypeError: If key_is_str_only is True and key is not a str.
         """
-        if self.str_only and not isinstance(key, str):
-            raise TypeError("Key must be a str, not ", type(key).__name__)
+        if self.key_is_str_only and not isinstance(key, str):
+            raise TypeError('Key must be a str, not ', type(key).__name__)
         ModifiableItemsAttrDict.__setitem__(self, key, value)
 
 
 class SnakeCaselessAttrDict(CaselessAttrDict):
     """
     Case-insensitive AttrDict where keys that are strings are in snake case.
-    If str_only is set to True, keys must be of type str.
+    If key_is_str_only is set to True, keys must be of type str.
 
     SnakeCaselessAttrDict() -> new empty snake caseless attribute dictionary
     SnakeCaselessAttrDict(mapping) -> new snake caseless attribute dictionary
@@ -108,16 +108,15 @@ class SnakeCaselessAttrDict(CaselessAttrDict):
     1
     >>> snake_caseless_attr_dict.sOme_worD
     1
-    >>> snake_caseless_attr_dict.str_only = True
-    >>> snake_caseless_attr_dict[1] = 2  # Raises TypeError: Key must be a str, not int
     """
+
     __slots__ = ()
 
 
 class ConstantCaselessAttrDict(CaselessAttrDict):
     """
     Case-insensitive AttrDict where keys that are strings are in constant case.
-    If str_only is set to True, keys must be of type str.
+    If key_is_str_only is set to True, keys must be of type str.
 
     ConstantCaselessAttrDict() -> new empty constant caseless attribute dict
     ConstantCaselessAttrDict(mapping) -> new constant caseless attribute dict
@@ -140,8 +139,6 @@ class ConstantCaselessAttrDict(CaselessAttrDict):
     1
     >>> constant_caseless_attr_dict.sOme_worD
     1
-    >>> constant_caseless_attr_dict.str_only = True
-    >>> constant_caseless_attr_dict[1] = 2  # Raises TypeError: Key must be a str, not int
     """
 
     __slots__ = ()
