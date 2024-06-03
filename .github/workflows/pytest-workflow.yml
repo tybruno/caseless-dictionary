@@ -26,4 +26,4 @@ jobs:
         python -m pip install -r requirements-test.txt
     - name: Test
       run: |
-        pytest tests/
+        pytest tests/ --doctest-modules
