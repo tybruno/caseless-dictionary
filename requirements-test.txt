@@ -1,3 +1,4 @@
 # Test Requirements
 pytest
 pytest-cov
+blue
