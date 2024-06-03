@@ -2,15 +2,19 @@
 [![Code Style: Blue](https://img.shields.io/badge/code%20style-blue-0000ff.svg)](https://github.com/psf/blue)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blueviolet.svg)](https://opensource.org/licenses/MIT)
 [![codecov](https://codecov.io/gh/tybruno/caseless-dictionary/branch/main/graph/badge.svg?token=ZO94EJFI3G)](https://codecov.io/gh/tybruno/caseless-dictionary)
+
 # caseless-dictionary
 
-A simple, fast, typed, and tested implementation for a python3.6+ case-insensitive dictionary. This class extends and
-maintains the original functionality of the builtin `dict`.
+A simple, fast, typed, and tested implementation for a python3.6+ case-insensitive and attribute case-insensitive 
+dictionaries. This class extends and maintains the original functionality of the builtin `dict` while providing extra 
+features.
 
 #### Key Features:
 
 * **Easy**: If you don't care about the case of the key in a dictionary then this implementation is easy to use since it
-  acts just like a `dict` obj.
+  acts just like a `dict` obj. 
+* **Attribute Access**: `CaselessAttrDict` allows attribute-style access to dictionary items, providing an alternative, 
+  often more readable way to access dictionary items.
 * **Great Developer Experience**: Being fully typed makes it great for editor support.
 * **Fully Tested**: Our test suit fully tests the functionality to ensure that `CaselessDict` runs as expected.
 * **There is More!!!**:
@@ -22,52 +26,96 @@ maintains the original functionality of the builtin `dict`.
 
 `pip install caseless-dictionary`
 
-## Simple CaselessDict Example
+## Caseless Dictionaries
+
+| Class Name           | Description                                                    | Example                                                                      |
+|----------------------|----------------------------------------------------------------|------------------------------------------------------------------------------|
+| CaselessDict         | A dictionary where keys that are strings are case-folded.      | `CaselessDict({"  HeLLO WoRLD  ": 1})  # Output: {'hello world': 1}`         |
+| CaseFoldCaselessDict | A dictionary where keys that are strings are case-folded.      | `CaseFoldCaselessDict({"  HeLLO WoRLD  ": 1})  # Output: {'hello world': 1}` |
+| LowerCaselessDict    | A dictionary where keys that are strings are in lower case.    | `LowerCaselessDict({"  HeLLO WoRLD  ": 1})  # Output: {'hello world': 1}`    |
+| UpperCaselessDict    | A dictionary where keys that are strings are in upper case.    | `UpperCaselessDict({"  HeLLO WoRLD  ": 1})  # Output: {'HELLO WORLD': 1}`    |
+| TitleCaselessDict    | A dictionary where keys that are strings are in title case.    | `TitleCaselessDict({"  HeLLO WoRLD  ": 1})  # Output: {'Hello World': 1}`    |
+| SnakeCaselessDict    | A dictionary where keys that are strings are in snake case.    | `SnakeCaselessDict({"  HeLLO WoRLD  ": 1})  # Output: {'hello_world': 1}`    |
+| KebabCaselessDict    | A dictionary where keys that are strings are in kebab case.    | `KebabCaselessDict({"  HeLLO WoRLD  ": 1})  # Output: {'hello-world': 1}`    |
+| ConstantCaselessDict | A dictionary where keys that are strings are in constant case. | `ConstantCaselessDict({"  HeLLO WoRLD  ": 1})  # Output: {'HELLO_WORLD': 1}` |
+## Caseless Attribute Dictionaries
+
+| Class Name               | Description                                                                                                 | Example                                                                     |
+|--------------------------|-------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------|
+| SnakeCaselessAttrDict    | A dictionary where keys that are strings are in snake case and can be accessed using attribute notation.    | `SnakeCaselessAttrDict({"  HeLLO WoRLD  ": 1}).hello_world  # Output: 1`    |
+| ConstantCaselessAttrDict | A dictionary where keys that are strings are in constant case and can be accessed using attribute notation. | `ConstantCaselessAttrDict({"  HeLLO WoRLD  ": 1}).HELLO_WORLD  # Output: 1` |
+
+### Basic CaselessDict Example
 
 ```python
 from caseless_dictionary import CaselessDict
 
-normal_dict: dict = {"   CamelCase   ": 1, "  UPPER   ": "TWO", 3: "  Number as Key  "}
+# Create a CaselessDict
+caseless_dict = CaselessDict({"  HeLLO WoRLD  ": 1, 2: "two"})
 
-caseless_dict: CaselessDict = CaselessDict(normal_dict)
+print(caseless_dict)  # Output: {'hello world': 1, 2: 'two'}
 
-print(caseless_dict)  # {'camelcase': 1, 'upper': 'TWO', 3: 'Number as Key'}
+# Accessing the value using different cases
+print(caseless_dict["  hello world  "])  # Output: 1
+print(caseless_dict["  HELLO WORLD  "])  # Output: 1
 
-print("CamelCase" in caseless_dict)  # True
-print("camelcase" in caseless_dict)  # True
-
-print(caseless_dict[" camelCASE  "])  # 1
+# Accessing non string value
+print(caseless_dict[2])  # Output: two
 ```
 
-## Simple UpperCaselessDict Example
+### Caseless Dictionary with Key as Str Only
 
 ```python
-from caseless_dictionary import UpperCaselessDict
-from typing import Iterable
+from caseless_dictionary import CaselessDict
 
-iterable: Iterable = [("   wArNIng", 0), ("deBug   ", 10)]
-upper_caseless_dict: dict = UpperCaselessDict(iterable)
-print(upper_caseless_dict)  # {'WARNING': 0, 'DEBUG': 10}
+# Create a CaselessDict with key_is_str_only set to True
+CaselessDict.key_is_str_only = True
+caseless_dict = CaselessDict({"  HeLLO WoRLD  ": 1})
 
-print("warning" in upper_caseless_dict)  # True
-
-upper_caseless_dict["WarninG"] = 30
-print(upper_caseless_dict)  # {'WARNING': 30, 'DEBUG': 10}
+# Attempt to set a non-string key
+try:
+    caseless_dict[1] = 2
+except TypeError:
+    print("TypeError raised as expected when key_is_str_only is True")
 ```
 
-## Simple TitleCaselessDict Example
+
+### Basic SnakeCaselessAttrDict Example
 
 ```python
-from caseless_dictionary import TitleCaselessDict
-from typing import Iterable
+from caseless_dictionary import SnakeCaselessAttrDict
 
-iterable: Iterable = {" Brave   ": 1, "   ProtonMail    ": 2}
-title_caseless_dict: dict = TitleCaselessDict(iterable)
-print(title_caseless_dict)  # {'Brave': 1, 'Protonmail': 2}
+# Create a SnakeCaselessAttrDict
+snake_caseless_attr_dict = SnakeCaselessAttrDict({"  HeLLO WoRLD  ": 1, 2: "two"})
+print(snake_caseless_attr_dict)  # Output: {'hello_world': 1, 2: 'two'}
 
-title_caseless_dict.pop("  protonMAIL  ")
+# Accessing the value using attribute notation
+print(snake_caseless_attr_dict.hello_world)  # Output: 1
+print(snake_caseless_attr_dict.HELLO_WORLD)  # Output: 1
 
-print(title_caseless_dict)  # {'Brave': 1}
+# Accessing the value using Keys
+print(snake_caseless_attr_dict["  hello_world  "])  # Output: 1
+print(snake_caseless_attr_dict["  HELLO WORLD  "])  # Output: 1
+
+# Accessing non string value
+print(snake_caseless_attr_dict[2])  # Output: two
+
+```
+
+### SnakeCaselessAttrDict with Key as Str Only
+
+```python
+from caseless_dictionary import SnakeCaselessAttrDict
+
+# Create a SnakeCaselessAttrDict with key_is_str_only set to True
+SnakeCaselessAttrDict.key_is_str_only = True
+snake_caseless_attr_dict = SnakeCaselessAttrDict({"  HeLLO WoRLD  ": 1})
+
+# Attempt to set a non-string key
+try:
+    snake_caseless_attr_dict[1] = 2
+except TypeError:
+    print("TypeError raised as expected when key_is_str_only is True")
 ```
 
 ## Acknowledgments
