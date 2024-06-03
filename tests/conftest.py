@@ -2,13 +2,16 @@ from typing import Mapping, Any, Callable, Hashable, NamedTuple, Type, Union
 
 import pytest
 
-import caseless_dictionary
+from caseless_dictionary import SnakeCaselessAttrDict, \
+    ConstantCaselessAttrDict, CaselessAttrDict, KebabCaselessDict, \
+    CaselessDict, ConstantCaselessDict, UpperCaselessDict, SnakeCaselessDict, \
+    TitleCaselessDict
 
 
 class _TestingClass(NamedTuple):
     cls: Union[
-        Type[caseless_dictionary.CaselessDict],
-        Type[caseless_dictionary.CaselessAttrDict],
+        Type[CaselessDict],
+        Type[CaselessAttrDict],
     ]
     key_modifier: Callable[[Any], Hashable]
 
@@ -77,13 +80,13 @@ def valid_mapping(request) -> Mapping:
 
 @pytest.fixture(
     params=(
-        _TestingClass(caseless_dictionary.CaselessDict, _case_fold),
-        _TestingClass(caseless_dictionary.UpperCaselessDict, _upper),
-        _TestingClass(caseless_dictionary.TitleCaselessDict, _title),
-        _TestingClass(caseless_dictionary.SnakeCaselessDict, _snake_case),
-        _TestingClass(caseless_dictionary.KebabCaselessDict, _kebab_case),
+        _TestingClass(CaselessDict, _case_fold),
+        _TestingClass(UpperCaselessDict, _upper),
+        _TestingClass(TitleCaselessDict, _title),
+        _TestingClass(SnakeCaselessDict, _snake_case),
+        _TestingClass(KebabCaselessDict, _kebab_case),
         _TestingClass(
-            caseless_dictionary.ConstantCaselessDict, _constant_case
+            ConstantCaselessDict, _constant_case
         ),
     )
 )
@@ -94,9 +97,9 @@ def caseless_class(request) -> _TestingClass:
 
 @pytest.fixture(
     params=(
-        _TestingClass(caseless_dictionary.SnakeCaselessAttrDict, _snake_case),
+        _TestingClass(SnakeCaselessAttrDict, _snake_case),
         _TestingClass(
-            caseless_dictionary.ConstantCaselessAttrDict, _constant_case
+            ConstantCaselessAttrDict, _constant_case
         ),
     )
 )
