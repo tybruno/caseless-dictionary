@@ -6,9 +6,7 @@ import pytest
 
 
 class TestCaselessDictionary:
-    def test__init__mapping(
-        self, valid_mapping: Mapping, caseless_class
-    ):
+    def test__init__mapping(self, valid_mapping: Mapping, caseless_class):
         _class, _key_operation = caseless_class
         caseless_dict = _class(valid_mapping)
         expected = {

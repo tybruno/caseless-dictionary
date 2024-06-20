@@ -53,9 +53,7 @@ class TestCaselessAttributeDictionary:
 
     """
 
-    def test__init__mapping(
-        self, valid_mapping: Mapping, caseless_attr_class
-    ):
+    def test__init__mapping(self, valid_mapping: Mapping, caseless_attr_class):
         _class, _key_operation = caseless_attr_class
         caseless_attr_dict = _class(valid_mapping)
         expected = {
