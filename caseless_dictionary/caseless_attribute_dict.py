@@ -1,3 +1,4 @@
+# pylint: disable=duplicate-code
 """
 This module contains classes that implement case-insensitive attribute
 dictionaries.
