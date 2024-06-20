@@ -2,10 +2,17 @@ from typing import Mapping, Any, Callable, Hashable, NamedTuple, Type, Union
 
 import pytest
 
-from caseless_dictionary import SnakeCaselessAttrDict, \
-    ConstantCaselessAttrDict, CaselessAttrDict, KebabCaselessDict, \
-    CaselessDict, ConstantCaselessDict, UpperCaselessDict, SnakeCaselessDict, \
-    TitleCaselessDict
+from caseless_dictionary import (
+    SnakeCaselessAttrDict,
+    ConstantCaselessAttrDict,
+    CaselessAttrDict,
+    KebabCaselessDict,
+    CaselessDict,
+    ConstantCaselessDict,
+    UpperCaselessDict,
+    SnakeCaselessDict,
+    TitleCaselessDict,
+)
 
 
 class _TestingClass(NamedTuple):
@@ -85,9 +92,7 @@ def valid_mapping(request) -> Mapping:
         _TestingClass(TitleCaselessDict, _title),
         _TestingClass(SnakeCaselessDict, _snake_case),
         _TestingClass(KebabCaselessDict, _kebab_case),
-        _TestingClass(
-            ConstantCaselessDict, _constant_case
-        ),
+        _TestingClass(ConstantCaselessDict, _constant_case),
     )
 )
 def caseless_class(request) -> _TestingClass:
@@ -98,9 +103,7 @@ def caseless_class(request) -> _TestingClass:
 @pytest.fixture(
     params=(
         _TestingClass(SnakeCaselessAttrDict, _snake_case),
-        _TestingClass(
-            ConstantCaselessAttrDict, _constant_case
-        ),
+        _TestingClass(ConstantCaselessAttrDict, _constant_case),
     )
 )
 def caseless_attr_class(request) -> _TestingClass:
