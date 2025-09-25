@@ -4,6 +4,8 @@
 [![codecov](https://codecov.io/gh/tybruno/caseless-dictionary/branch/main/graph/badge.svg?token=ZO94EJFI3G)](https://codecov.io/gh/tybruno/caseless-dictionary)
 [![Pylint](https://img.shields.io/badge/Pylint-10.0%2F10-green)](10.0/10)
 [![Mypy](https://img.shields.io/badge/Mypy-checked-blue)](10.0/10)
+[![published](https://static.production.devnetcloud.com/codeexchange/assets/images/devnet-published.svg)](https://developer.cisco.com/codeexchange/github/repo/tybruno/caseless-dictionary)
+[![Run in Cisco Cloud IDE](https://static.production.devnetcloud.com/codeexchange/assets/images/devnet-runable-icon.svg)](https://developer.cisco.com/codeexchange/devenv/tybruno/caseless-dictionary/)
 
 # caseless-dictionary
 
