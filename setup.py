@@ -4,6 +4,7 @@ from setuptools import (
     setup,
 )
 
+
 __version__ = 'v2.0.3'
 __author__ = 'Tyler Bruno'
 DESCRIPTION = (
